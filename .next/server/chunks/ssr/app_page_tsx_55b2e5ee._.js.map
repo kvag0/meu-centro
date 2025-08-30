@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/caiosobrinho/Downloads/meu-centro/app/page.tsx"],"sourcesContent":["'use client'\n\nimport { Authenticated, Unauthenticated } from 'convex/react'\nimport { SignInButton, UserButton } from '@clerk/nextjs'\nimport { useQuery } from 'convex/react'\nimport { api } from '../convex/_generated/api'\n\nexport default function Home() {\n  return (\n    <>\n      <Authenticated>\n        <UserButton />\n      </Authenticated>\n      <Unauthenticated>\n        <SignInButton />\n      </Unauthenticated>\n    </>\n  )\n}\n\n"],"names":[],"mappings":";;;;;AAEA;AAAA;AACA;AAAA;AAHA;;;;AAOe,SAAS;IACtB,qBACE;;0BACE,8OAAC,+KAAa;0BACZ,cAAA,8OAAC,qLAAU;;;;;;;;;;0BAEb,8OAAC,iLAAe;0BACd,cAAA,8OAAC,2LAAY;;;;;;;;;;;;AAIrB","debugId":null}}]
+}

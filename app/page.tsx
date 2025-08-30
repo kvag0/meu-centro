@@ -10,7 +10,6 @@ export default function Home() {
     <>
       <Authenticated>
         <UserButton />
-        <Content />
       </Authenticated>
       <Unauthenticated>
         <SignInButton />
@@ -19,7 +18,3 @@ export default function Home() {
   )
 }
 
-function Content() {
-  const messages = useQuery(api.messages.getForCurrentUser)
-  return <div>Authenticated content: {messages?.length}</div>
-}
