@@ -2,60 +2,71 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  // Tabela de Terreiros
+  // Tabela de Terreiros (Centros)
   terreiros: defineTable({
     name: v.string(),
     address: v.optional(v.string()),
-    ownerId: v.id("users"), // ID do usuário dono
+    ownerId: v.id("users"),
   }),
 
-  // Tabela de Usuários (Membros e Admins)
+  // Tabela de Usuários
   users: defineTable({
     name: v.string(),
     email: v.string(),
-    clerkId: v.string(), // ID do usuário vindo do Clerk
-    // ALTERAÇÃO FINAL: Tornando o campo obrigatório novamente
-    tokenIdentifier: v.string(), 
+    clerkId: v.string(),
+    tokenIdentifier: v.string(),
     role: v.union(v.literal("admin"), v.literal("member")),
-    terreiroId: v.optional(v.id("terreiros")), // ID do terreiro ao qual o membro pertence
+    terreiroId: v.optional(v.id("terreiros")),
   })
-  .index("by_clerk_id", ["clerkId"])
-  .index("by_token", ["tokenIdentifier"]),
+    .index("by_token", ["tokenIdentifier"])
+    .index("by_clerk_id", ["clerkId"])
+    .index("by_terreiro_id", ["terreiroId"]),
 
   // Tabela de Eventos
   events: defineTable({
     title: v.string(),
     description: v.optional(v.string()),
-    date: v.number(), // Armazenado como timestamp
+    date: v.number(),
     isPublic: v.boolean(),
     terreiroId: v.id("terreiros"),
   }).index("by_terreiro_id", ["terreiroId"]),
-
-  // Tabela para Receitas de Banhos
-  bathRecipes: defineTable({
-    name: v.string(),
-    ingredients: v.array(v.string()),
-    instructions: v.string(),
-    terreiroId: v.id("terreiros"),
-  }),
-
-  // Tabela para Rituais
-  rituals: defineTable({
-    name: v.string(),
-    description: v.string(),
-    terreiroId: v.id("terreiros"),
-  }),
   
-  // Tabela para Diagnósticos (conecta usuários a banhos/rituais)
+  // Tabela de Receitas de Banhos
+  bathRecipes: defineTable({
+    title: v.string(),
+    ingredients: v.string(),
+    description: v.optional(v.string()), // Modo de preparo
+    terreiroId: v.id("terreiros"),
+  }).index("by_terreiro_id", ["terreiroId"]),
+
+  // Tabela de Rituais
+  rituals: defineTable({
+    title: v.string(),
+    description: v.optional(v.string()),
+    terreiroId: v.id("terreiros"),
+  }).index("by_terreiro_id", ["terreiroId"]),
+  
+  // Tabela de Diagnósticos (conexão entre usuário e tarefa)
   diagnoses: defineTable({
     memberId: v.id("users"),
     adminId: v.id("users"),
-    type: v.union(v.literal("bath"), v.literal("ritual"), v.literal("event")),
-    // Guarda o ID da receita do banho, do ritual ou do evento
-    referenceId: v.string(), 
-    status: v.union(v.literal("pending"), v.literal("completed")),
-    notes: v.optional(v.string()),
     terreiroId: v.id("terreiros"),
+    type: v.union(v.literal("event"), v.literal("bath"), v.literal("ritual")),
+    referenceId: v.string(), // ID do evento, banho ou ritual
+    notes: v.optional(v.string()),
+    status: v.union(v.literal("pending"), v.literal("completed")),
   }).index("by_member_id", ["memberId"]),
-});
 
+  // Tabela de Artigos da Biblioteca
+  articles: defineTable({
+    title: v.string(),
+    content: v.string(), // Conteúdo em Markdown
+    // NOVO: Adiciona a categoria do artigo
+    category: v.string(), 
+    terreiroId: v.id("terreiros"), // No futuro, pode ser um ID de admin global
+    authorId: v.id("users"),
+  })
+    .index("by_terreiro_id", ["terreiroId"])
+    // NOVO: Adiciona um índice para buscar por categoria
+    .index("by_category", ["category"]),
+});
