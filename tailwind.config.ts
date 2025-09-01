@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss"
 
 const config = {
-  darkMode: ["class"],
+  darkMode: "class",
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -16,7 +16,7 @@ const config = {
       screens: {
         "2xl": "1400px",
       },
-    },
+    }, 
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -52,7 +52,6 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Novas cores da nossa paleta
         brand: {
           'linen': '#FDFBF5',
           'graphite': '#3A3A3A',
@@ -91,3 +90,4 @@ const config = {
 } satisfies Config
 
 export default config
+
