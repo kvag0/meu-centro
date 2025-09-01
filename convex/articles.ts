@@ -57,8 +57,8 @@ export const getForTerreiro = query({
   },
 });
 
-// NOME CORRETO E DEFINITIVO: getAllPublic
-export const getAllPublic = query({
+// NOME CORRIGIDO E DEFINITIVO: getAll
+export const getAll = query({
   args: {
     category: v.optional(v.string()),
   },

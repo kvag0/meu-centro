@@ -474,7 +474,6 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-// Categorias disponíveis para filtro
 const categories = [
     "Todos",
     "Orixás",
@@ -483,16 +482,9 @@ const categories = [
     "Conceitos Fundamentais",
     "Banhos e Ervas"
 ];
-// Função auxiliar para criar um excerto de texto puro a partir de Markdown
 const createExcerpt = function(markdown) {
     let length = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 150;
-    const plainText = markdown.replace(/^#+\s/gm, "") // Remove cabeçalhos
-    .replace(/(\*\*|__)(.*?)\1/g, "$2") // Remove negrito
-    .replace(/(\*|_)(.*?)\1/g, "$2") // Remove itálico
-    .replace(/!\[(.*?)\]\(.*?\)/g, "") // Remove imagens
-    .replace(/\[(.*?)\]\(.*?\)/g, "$1") // Remove links, mas mantém o texto
-    .replace(/\s+/g, " ") // Substitui múltiplos espaços por um único
-    .trim();
+    const plainText = markdown.replace(/^#+\s/gm, "").replace(/(\*\*|__)(.*?)\1/g, "$2").replace(/(\*|_)(.*?)\1/g, "$2").replace(/!\[(.*?)\]\(.*?\)/g, "").replace(/\[(.*?)\]\(.*?\)/g, "$1").replace(/\s+/g, " ").trim();
     if (plainText.length <= length) {
         return plainText;
     }
@@ -501,8 +493,8 @@ const createExcerpt = function(markdown) {
 function BibliotecaPage() {
     _s();
     const [selectedCategory, setSelectedCategory] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("Todos");
-    // CORRIGIDO: Chamar a função 'getAllPublic' e passar a categoria selecionada
-    const articles = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$convex$2f$dist$2f$esm$2f$react$2f$client$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])(__TURBOPACK__imported__module__$5b$project$5d2f$convex$2f$_generated$2f$api$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].articles.getAllPublic, selectedCategory === "Todos" ? {} : {
+    // CORRIGIDO: Chamando a função com o nome correto e consistente: getAllPublic
+    const articles = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$convex$2f$dist$2f$esm$2f$react$2f$client$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])(__TURBOPACK__imported__module__$5b$project$5d2f$convex$2f$_generated$2f$api$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].articles.getAll, selectedCategory === "Todos" ? {} : {
         category: selectedCategory
     });
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -518,7 +510,7 @@ function BibliotecaPage() {
                                 children: "Biblioteca de Axé"
                             }, void 0, false, {
                                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                lineNumber: 64,
+                                lineNumber: 62,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -526,13 +518,13 @@ function BibliotecaPage() {
                                 children: "Explore o conhecimento e os fundamentos da nossa fé."
                             }, void 0, false, {
                                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                lineNumber: 65,
+                                lineNumber: 63,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                        lineNumber: 63,
+                        lineNumber: 61,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -547,12 +539,12 @@ function BibliotecaPage() {
                                         placeholder: "Filtrar por categoria"
                                     }, void 0, false, {
                                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                        lineNumber: 76,
+                                        lineNumber: 73,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                    lineNumber: 75,
+                                    lineNumber: 72,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -561,29 +553,29 @@ function BibliotecaPage() {
                                             children: category
                                         }, category, false, {
                                             fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                            lineNumber: 80,
+                                            lineNumber: 77,
                                             columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                    lineNumber: 78,
+                                    lineNumber: 75,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                            lineNumber: 71,
+                            lineNumber: 68,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                        lineNumber: 69,
+                        lineNumber: 67,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                lineNumber: 62,
+                lineNumber: 60,
                 columnNumber: 7
             }, this),
             articles === undefined && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -592,12 +584,12 @@ function BibliotecaPage() {
                     className: "h-12 w-12 animate-spin text-primary"
                 }, void 0, false, {
                     fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                    lineNumber: 91,
+                    lineNumber: 88,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                lineNumber: 90,
+                lineNumber: 87,
                 columnNumber: 9
             }, this),
             articles && articles.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -608,7 +600,7 @@ function BibliotecaPage() {
                         children: "Nenhum artigo encontrado"
                     }, void 0, false, {
                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                        lineNumber: 97,
+                        lineNumber: 94,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -616,18 +608,17 @@ function BibliotecaPage() {
                         children: "Ainda não há artigos nesta categoria. Volte em breve!"
                     }, void 0, false, {
                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                        lineNumber: 98,
+                        lineNumber: 95,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                lineNumber: 96,
+                lineNumber: 93,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
-                children: articles === null || articles === void 0 ? void 0 : articles.map((article)=>// Adicionado Link para a página de detalhe do artigo
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                children: articles === null || articles === void 0 ? void 0 : articles.map((article)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                         href: "/biblioteca/".concat(article._id),
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                             className: "h-full flex flex-col hover:shadow-lg transition-shadow duration-300 cursor-pointer",
@@ -641,7 +632,7 @@ function BibliotecaPage() {
                                                 children: article.title
                                             }, void 0, false, {
                                                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                                lineNumber: 110,
+                                                lineNumber: 106,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -649,18 +640,18 @@ function BibliotecaPage() {
                                                 children: article.category
                                             }, void 0, false, {
                                                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 107,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                        lineNumber: 109,
+                                        lineNumber: 105,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                    lineNumber: 108,
+                                    lineNumber: 104,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -669,34 +660,34 @@ function BibliotecaPage() {
                                         children: createExcerpt(article.content)
                                     }, void 0, false, {
                                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                        lineNumber: 115,
+                                        lineNumber: 111,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                                    lineNumber: 114,
+                                    lineNumber: 110,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                            lineNumber: 107,
+                            lineNumber: 103,
                             columnNumber: 15
                         }, this)
                     }, article._id, false, {
                         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                        lineNumber: 106,
+                        lineNumber: 102,
                         columnNumber: 13
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-                lineNumber: 103,
+                lineNumber: 100,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/biblioteca/[articleId]/page.tsx",
-        lineNumber: 61,
+        lineNumber: 59,
         columnNumber: 5
     }, this);
 }
