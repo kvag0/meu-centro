@@ -2,19 +2,54 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getCurrentUser } from "./users";
 
-// Busca todos os artigos publicados para a página pública da biblioteca.
-export const getAll = query({
-  handler: async (ctx) => {
-    return await ctx.db.query("articles").order("desc").collect();
+// Criar um novo artigo (apenas para administradores)
+export const create = mutation({
+  args: {
+    title: v.string(),
+    content: v.string(),
+    category: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await getCurrentUser(ctx);
+    if (user.role !== "admin") {
+      throw new Error("Apenas administradores podem criar artigos.");
+    }
+
+    if (!user.terreiroId) {
+        throw new Error("Administrador não está associado a um terreiro.");
+    }
+
+    const articleId = await ctx.db.insert("articles", {
+      title: args.title,
+      content: args.content,
+      category: args.category,
+      authorId: user._id,
+      terreiroId: user.terreiroId,
+    });
+
+    return articleId;
   },
 });
 
-// Busca todos os artigos de um determinado terreiro para o painel de admin.
-export const getForTerreiro = query({
-  args: { terreiroId: v.id("terreiros") },
+// Deletar um artigo (apenas para administradores)
+export const deleteArticle = mutation({
+  args: { id: v.id("articles") },
   handler: async (ctx, args) => {
-    await getCurrentUser(ctx);
-    return await ctx.db
+    const user = await getCurrentUser(ctx);
+    if (user.role !== "admin") {
+      throw new Error("Apenas administradores podem deletar artigos.");
+    }
+    await ctx.db.delete(args.id);
+  },
+});
+
+// Buscar todos os artigos de um terreiro (para o painel de admin)
+export const getForTerreiro = query({
+  args: {
+    terreiroId: v.id("terreiros"),
+  },
+  handler: async (ctx, args) => {
+    return ctx.db
       .query("articles")
       .withIndex("by_terreiro_id", (q) => q.eq("terreiroId", args.terreiroId))
       .order("desc")
@@ -22,48 +57,26 @@ export const getForTerreiro = query({
   },
 });
 
-// Cria um novo artigo na biblioteca.
-export const create = mutation({
+// NOME CORRETO E DEFINITIVO: getAllPublic
+export const getAllPublic = query({
   args: {
-    title: v.string(),
-    content: v.string(),
-    // NOVO: Exige a categoria na criação
-    category: v.string(),
+    category: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const user = await getCurrentUser(ctx);
-
-    if (user.role !== "admin" || !user.terreiroId) {
-      throw new Error("Apenas administradores podem criar artigos.");
+    const { category } = args;
+    const query = ctx.db.query("articles");
+    if (category && category !== "Todos") {
+      return query.withIndex("by_category", (q) => q.eq("category", category)).order("desc").collect();
     }
-
-    return await ctx.db.insert("articles", {
-      title: args.title,
-      content: args.content,
-      category: args.category, // Salva a categoria
-      terreiroId: user.terreiroId,
-      authorId: user._id,
-    });
+    return query.order("desc").collect();
   },
 });
 
-// Deleta um artigo da biblioteca.
-export const deleteArticle = mutation({
-  args: {
-    articleId: v.id("articles"),
-  },
-  handler: async (ctx, args) => {
-    const user = await getCurrentUser(ctx);
-    const article = await ctx.db.get(args.articleId);
-
-    if (!article) {
-      throw new Error("Artigo não encontrado.");
-    }
-
-    if (user.role !== "admin" || user.terreiroId !== article.terreiroId) {
-      throw new Error("Você não tem permissão para deletar este artigo.");
-    }
-
-    await ctx.db.delete(args.articleId);
-  },
+// Buscar um único artigo pelo seu ID (público)
+export const getById = query({
+    args: { articleId: v.id("articles") },
+    handler: async (ctx, args) => {
+        return await ctx.db.get(args.articleId);
+    },
 });
+
