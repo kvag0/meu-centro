@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
-import { Header } from "@/components/Header";
-import { ClerkProvider } from '@clerk/nextjs'; // Importar o ClerkProvider
-import { ptBR } from "@clerk/localizations"; // (Opcional) Importar a localização para Português
+import { Toaster } from "@/components/ui/sonner";
+import Header from "@/components/Header";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: '--font-inter',
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: '--font-lora',
+});
 
 export const metadata: Metadata = {
-  title: "MeuCentro - Conectando Filhos de Fé",
-  description: "Gerencie sua jornada espiritual, diagnósticos e eventos do seu terreiro.",
+  title: "MeuCentro",
+  description: "Gerencie seu terreiro com facilidade e axé.",
 };
 
 export default function RootLayout({
@@ -19,17 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
-      <body className={inter.className}>
-        {/* O ClerkProvider deve envolver todos os componentes que precisam
-          de acesso à autenticação, incluindo nosso ConvexClientProvider.
-        */}
-        <ClerkProvider localization={ptBR}>
-          <ConvexClientProvider>
-            <Header />
-            <main className="container mx-auto px-4">{children}</main>
-          </ConvexClientProvider>
-        </ClerkProvider>
+    <html lang="pt-BR">
+      <body className={`${inter.variable} ${lora.variable} font-sans`}>
+        <ConvexClientProvider>
+          <Header />
+          <main>{children}</main>
+          <Toaster />
+        </ConvexClientProvider>
       </body>
     </html>
   );

@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/caiosobrinho/Downloads/meu-centro/components/ConvexClientProvider.tsx"],"sourcesContent":["'use client'\n\nimport { ReactNode } from 'react'\nimport { ConvexReactClient } from 'convex/react'\nimport { ConvexProviderWithClerk } from 'convex/react-clerk'\nimport { useAuth } from '@clerk/nextjs'\n\nif (!process.env.NEXT_PUBLIC_CONVEX_URL) {\n  throw new Error('Missing NEXT_PUBLIC_CONVEX_URL in your .env file')\n}\n\nconst convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL)\n\nexport default function ConvexClientProvider({ children }: { children: ReactNode }) {\n  return (\n    <ConvexProviderWithClerk client={convex} useAuth={useAuth}>\n      {children}\n    </ConvexProviderWithClerk>\n  )\n}"],"names":[],"mappings":";;;;AAOK;;AAJL;AAAA;AACA;AAAA;AACA;AALA;;;;;AAOA;;AAIA,MAAM,SAAS,IAAI,gLAAiB;AAErB,SAAS,qBAAqB,KAAqC;QAArC,EAAE,QAAQ,EAA2B,GAArC;IAC3C,qBACE,6LAAC,gNAAuB;QAAC,QAAQ;QAAQ,SAAS,gQAAO;kBACtD;;;;;;AAGP;KANwB","debugId":null}}]
-}
